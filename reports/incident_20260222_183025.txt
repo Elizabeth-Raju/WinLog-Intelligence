@@ -1,0 +1,105 @@
+================================================================================
+                    WINDOWS SECURITY INCIDENT REPORT
+================================================================================
+Incident ID    : INC-20260222-182922
+Generated At   : 2026-02-22 18:29:22
+Classification : CRITICAL
+Detection      : Autoencoder Anomaly Detection (PyTorch)
+Status         : OPEN — Pending Investigation
+================================================================================
+
+EXECUTIVE SUMMARY
+─────────────────────────────────────────────────────────────────────
+Windows security anomaly detection report: 7,905 anomalies detected (5.0% rate), highest severity: LOW, from 1 countries
+
+QUANTITATIVE OVERVIEW
+─────────────────────────────────────────────────────────────────────
+  Total Events Analyzed       : 158,184
+  Anomalies Detected          : 7,905
+  Anomaly Rate                : 5.0%
+  Detection Threshold (MSE)   : 1.997532
+  Max Reconstruction Error    : 45.114037  [EXTREME deviation]
+  Mean Error (All)            : 0.433904
+  Mean Error (Anomalies)      : 3.497024
+
+SEVERITY BREAKDOWN
+─────────────────────────────────────────────────────────────────────
+  LOW                                   7784
+  CRITICAL                               120
+  MEDIUM                                   1
+
+TOP AFFECTED MACHINES
+─────────────────────────────────────────────────────────────────────
+  LAPTOP-1MKMTVPM                       4137
+  TMP249-G3-M                           2926
+  DESKTOP-SEJ28PM                        421
+  DESKTOP-R5JMQHG                        229
+  DESKTOP-U66O8IT                         95
+
+TOP ANOMALOUS EVENT SOURCES
+─────────────────────────────────────────────────────────────────────
+  ESENT                                 7173
+  Software Protection Platform Service    410
+  Windows Error Reporting                255
+  MsiInstaller                            58
+  System Restore                           4
+
+ENTRY TYPE DISTRIBUTION (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  Information                           7903
+  0                                        1
+  Warning                                  1
+
+CATEGORY BREAKDOWN (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  General                               4787
+  Logging/Recovery                      2386
+  0                                      729
+  Search service                           2
+  Gatherer                                 1
+
+GEOGRAPHIC DISTRIBUTION
+─────────────────────────────────────────────────────────────────────
+  India                                 7905
+
+ISP / NETWORK ORIGIN
+─────────────────────────────────────────────────────────────────────
+  GTPL A. J. Enterprise                 2264
+  Bharti Airtel Limited                 1340
+  Vaji Communications Pvt. Ltd.         1156
+  Idea Cellular Ltd                      912
+  Bharti Airtel                          553
+
+IMPACT ASSESSMENT  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+This Windows security incident occurred in India. The top affected machines were ['Laptops-1MKMTVPM', 'TMP249-G3-M', 'DESKTOP-SEJ28PM', 'Laptops-1MKMTVPM', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', 'Laptops-249-G3-M', '
+
+ROOT CAUSE ANALYSIS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0 Logging/Recovery 0
+
+REMEDIATION RECOMMENDATIONS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+A security incident in India involved an anomaly rate of 5.0%, top anomalous sources: ['ESENT', 'Software Protection Platform Service', 'Windows Error Reporting'], severity distribution: 'LOW': 7784, criticality distribution: 120, country involved: ['India']
+
+TOP CRITICAL ANOMALY RECORDS
+─────────────────────────────────────────────────────────────────────
+  [1] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 45.114037
+  [2] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 45.10474
+  [3] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 45.103035
+  [4] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 45.101418
+  [5] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 45.099957
+
+DETECTION METHODOLOGY
+─────────────────────────────────────────────────────────────────────
+  Model            : Symmetric Autoencoder (PyTorch)
+  Architecture     : Input → 128 → 64 → 32 → 16 ← 32 ← 64 ← 128 ← Input
+  Training Mode    : Unsupervised (learns normal behaviour)
+  Anomaly Metric   : Per-sample MSE reconstruction error
+  Threshold Policy : 95.0th percentile of training errors
+  Feature Groups   : Temporal (13) + Categorical LE (9) + TF-IDF (50) + Msg Stats (7)
+  LLM Narrative    : google/flan-t5-base (HuggingFace Transformers)
+
+================================================================================
+                          END OF INCIDENT REPORT
+================================================================================

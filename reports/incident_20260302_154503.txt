@@ -1,0 +1,108 @@
+================================================================================
+                    WINDOWS SECURITY INCIDENT REPORT
+================================================================================
+Incident ID    : INC-20260302-154753
+Generated At   : 2026-03-02 15:47:53
+Classification : CRITICAL
+Detection      : Autoencoder Anomaly Detection (PyTorch)
+Status         : OPEN — Pending Investigation
+================================================================================
+
+EXECUTIVE SUMMARY
+─────────────────────────────────────────────────────────────────────
+Windows security anomaly detection report: 7,908 anomalies detected (5.0% rate), highest severity: LOW, from 1 countries
+
+QUANTITATIVE OVERVIEW
+─────────────────────────────────────────────────────────────────────
+  Total Events Analyzed       : 158,184
+  Anomalies Detected          : 7,908
+  Anomaly Rate                : 5.0%
+  Detection Threshold (MSE)   : 0.204650
+  Max Reconstruction Error    : 9.367188  [EXTREME deviation]
+  Min Reconstruction Error    : 0.006200
+  Mean Error (All)            : 0.081739
+  Std Error (All)             : 0.272630
+  Mean Error (Anomalies)      : 0.507592
+  Date Range                  : 2014-11-16 17:43:00  ->  2021-05-03 18:29:00
+
+SEVERITY BREAKDOWN
+─────────────────────────────────────────────────────────────────────
+  LOW                                   7788
+  CRITICAL                               120
+
+TOP AFFECTED MACHINES
+─────────────────────────────────────────────────────────────────────
+  LAPTOP-1MKMTVPM                       2482
+  TMP249-G3-M                           2288
+  Admin-PC                              1407
+  DESKTOP-SEJ28PM                       1072
+  DESKTOP-U66O8IT                        288
+
+TOP ANOMALOUS EVENT SOURCES
+─────────────────────────────────────────────────────────────────────
+  ESENT                                 2505
+  Windows Error Reporting               1074
+  MsiInstaller                           881
+  Software Protection Platform Service    356
+  WinMgmt                                318
+
+ENTRY TYPE DISTRIBUTION (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  Information                           5488
+  Error                                 1092
+  Warning                                747
+  0                                      581
+
+CATEGORY BREAKDOWN (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  0                                     4488
+  General                               1817
+  Logging/Recovery                       481
+  LMS                                    272
+  Application Crashing Events            172
+
+GEOGRAPHIC DISTRIBUTION
+─────────────────────────────────────────────────────────────────────
+  India                                 7908
+
+ISP / NETWORK ORIGIN
+─────────────────────────────────────────────────────────────────────
+  Bharti Airtel                         2597
+  GTPL A. J. Enterprise                 1351
+  Bharti Airtel Limited                 1040
+  Vaji Communications Pvt. Ltd.          997
+  Idea Cellular Ltd                      721
+
+IMPACT ASSESSMENT  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+This Windows security incident occurred in India. The top affected machines were ['LaptOP-1MKMTVPM', 'TMP249-G3-M', 'Admin-PC'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'. The top affected machines were ['LaptOP-1MKMTVPM', 'TMP249-G3-M', 'Admin-PC'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'. The top affected machines were ['LaptOP-1MKMTVPM', 'TMP249-G3-M', 'Admin-PC'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'. The top affected machines were ['LaptOP-1MKMTVPM', 'TMP249-G3-M', 'Admin-PC'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'. The top affected machines were ['LaptOP-1MKMTVPM', 'TMP249-G3-M', 'Admin-PC'] and 'LaptOP-249-G3-M'] and 'LaptOP-249-G3-M'. The top affected machines were ['LaptOP-1MKMTVPM', 'TMP249-G3-M', 'Admin-PC'] and 'LaptOP-249-G3-M'. The top affected machines were ['LaptOP-1MKMTVPM', 'TMP249-G3-M', 'Admin-PC'] and 'Lapt
+
+ROOT CAUSE ANALYSIS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '
+
+REMEDIATION RECOMMENDATIONS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+A security incident in India involved an anomaly rate of 5.0%, top anomalous sources: ['ESENT', 'Windows Error Reporting', 'MsiInstaller'], severity distribution: 'LOW': 7788, criticality distribution: 120, countries involved: ['India']
+
+TOP CRITICAL ANOMALY RECORDS
+─────────────────────────────────────────────────────────────────────
+  [1] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 9.3671875
+  [2] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 9.3671875
+  [3] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 9.3671875
+  [4] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 9.3671875
+  [5] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 9.3671875
+
+DETECTION METHODOLOGY
+─────────────────────────────────────────────────────────────────────
+  Model            : Symmetric Autoencoder (PyTorch)
+  Architecture     : Input -> 128 -> 64 -> 32 -> 16 <- 32 <- 64 <- 128 <- Input
+  Training Mode    : Unsupervised (learns normal behaviour)
+  Anomaly Metric   : Per-sample MSE reconstruction error
+  Threshold Policy : 95.0th percentile of training errors
+  Feature Groups   : Temporal (11) + Categorical LE (4) + TF-IDF (50) + Msg Stats (7)
+  LLM Narrative    : google/flan-t5-base (HuggingFace Transformers)
+
+================================================================================
+                          END OF INCIDENT REPORT
+================================================================================

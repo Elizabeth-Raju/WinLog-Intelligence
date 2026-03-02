@@ -1,0 +1,96 @@
+================================================================================
+                    WINDOWS SECURITY INCIDENT REPORT
+================================================================================
+Incident ID    : INC-20260302-130044
+Generated At   : 2026-03-02 13:00:44
+Classification : CRITICAL
+Detection      : Autoencoder Anomaly Detection (PyTorch)
+Status         : OPEN — Pending Investigation
+================================================================================
+
+EXECUTIVE SUMMARY
+─────────────────────────────────────────────────────────────────────
+A CISO from the Office of Management and Budget (OMB) in Washington, D.C. reported a security incident in which four anomalies (5.06% rate), severity: 'HIGH': 2, 'CRITICAL': 2, after-hours anomalies: 0
+
+QUANTITATIVE OVERVIEW
+─────────────────────────────────────────────────────────────────────
+  Total Events Analyzed       : 79
+  Anomalies Detected          : 4
+  Anomaly Rate                : 5.06%
+  Detection Threshold (MSE)   : 1.085011
+  Max Reconstruction Error    : 1.261272  [MODERATE deviation]
+  Mean Error (All)            : 0.617438
+  Mean Error (Anomalies)      : 1.177556
+  After-Hours Anomalies       : 0
+  Time Range                  : 2024-01-15 08:23:11  ->  2024-01-16 04:00:00
+
+SEVERITY BREAKDOWN
+─────────────────────────────────────────────────────────────────────
+  HIGH                                     2
+  CRITICAL                                 2
+
+TOP AFFECTED MACHINES
+─────────────────────────────────────────────────────────────────────
+  SERVER-DC01                              2
+  SERVER-WEB01                             1
+  SERVER-FILE01                            1
+
+TOP ANOMALOUS EVENT SOURCES
+─────────────────────────────────────────────────────────────────────
+  Security                                 2
+  Microsoft-Windows-Security-Auditing      1
+  W3SVC                                    1
+
+ENTRY TYPE DISTRIBUTION (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  SuccessAudit                             2
+  FailureAudit                             1
+  Error                                    1
+
+CATEGORY BREAKDOWN (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  System Integrity                         1
+  Logon                                    1
+  Web                                      1
+  File System                              1
+
+GEOGRAPHIC DISTRIBUTION
+─────────────────────────────────────────────────────────────────────
+  (none)
+
+ISP / NETWORK ORIGIN
+─────────────────────────────────────────────────────────────────────
+  (none)
+
+IMPACT ASSESSMENT  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+This Windows security incident has a 5.06% anomaly rate (4 events), severity: 'HIGH': 2, 'CRITICAL': 2, top affected machines: ['SERVER-DC01', 'SERVER-WEB01', 'SERVER-FILE01']
+
+ROOT CAUSE ANALYSIS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+['Security', 'Microsoft-Windows-Security-Auditing', 'W3SVC', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Security-Auditing', 'Microsoft-Windows-Secur
+
+REMEDIATION RECOMMENDATIONS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+Acknowledge anomaly rate of 5.06%
+
+TOP CRITICAL ANOMALY RECORDS
+─────────────────────────────────────────────────────────────────────
+  [1] MachineName: SERVER-FILE01 | Source: Security | EntryType: SuccessAudit | severity: CRITICAL | reconstruction_error: 1.2612721920013428
+  [2] MachineName: SERVER-WEB01 | Source: W3SVC | EntryType: Error | severity: CRITICAL | reconstruction_error: 1.2378497123718262
+  [3] MachineName: SERVER-DC01 | Source: Microsoft-Windows-Security-Auditing | EntryType: FailureAudit | severity: HIGH | reconstruction_error: 1.112445592880249
+  [4] MachineName: SERVER-DC01 | Source: Security | EntryType: SuccessAudit | severity: HIGH | reconstruction_error: 1.098657250404358
+
+DETECTION METHODOLOGY
+─────────────────────────────────────────────────────────────────────
+  Model            : Symmetric Autoencoder (PyTorch)
+  Architecture     : Input -> 128 -> 64 -> 32 -> 16 <- 32 <- 64 <- 128 <- Input
+  Training Mode    : Unsupervised (learns normal behaviour)
+  Anomaly Metric   : Per-sample MSE reconstruction error
+  Threshold Policy : 95.0th percentile of training errors
+  Feature Groups   : Temporal (13) + Categorical LE (9) + TF-IDF (50) + Msg Stats (7)
+  LLM Narrative    : google/flan-t5-base (HuggingFace Transformers)
+
+================================================================================
+                          END OF INCIDENT REPORT
+================================================================================

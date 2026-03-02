@@ -1,0 +1,95 @@
+================================================================================
+                    WINDOWS SECURITY INCIDENT REPORT
+================================================================================
+Incident ID    : INC-20260302-135406
+Generated At   : 2026-03-02 13:54:06
+Classification : CRITICAL
+Detection      : Autoencoder Anomaly Detection (PyTorch)
+Status         : OPEN — Pending Investigation
+================================================================================
+
+EXECUTIVE SUMMARY
+─────────────────────────────────────────────────────────────────────
+A CISO from the Office of Management and Budget (OMB) in Washington, D.C. reported a security incident in which four anomalies (5.06% rate), severity: 'HIGH': 3, 'CRITICAL': 1, after-hours anomalies: 0
+
+QUANTITATIVE OVERVIEW
+─────────────────────────────────────────────────────────────────────
+  Total Events Analyzed       : 79
+  Anomalies Detected          : 4
+  Anomaly Rate                : 5.06%
+  Detection Threshold (MSE)   : 1.039346
+  Max Reconstruction Error    : 1.368411  [MODERATE deviation]
+  Mean Error (All)            : 0.613445
+  Mean Error (Anomalies)      : 1.155447
+  After-Hours Anomalies       : 0
+  Time Range                  : 2024-01-15 08:23:11  ->  2024-01-16 04:00:00
+
+SEVERITY BREAKDOWN
+─────────────────────────────────────────────────────────────────────
+  HIGH                                     3
+  CRITICAL                                 1
+
+TOP AFFECTED MACHINES
+─────────────────────────────────────────────────────────────────────
+  SERVER-DC01                              2
+  SERVER-FILE01                            2
+
+TOP ANOMALOUS EVENT SOURCES
+─────────────────────────────────────────────────────────────────────
+  Security                                 2
+  Microsoft-Windows-Security-Auditing      1
+  Disk                                     1
+
+ENTRY TYPE DISTRIBUTION (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  SuccessAudit                             2
+  FailureAudit                             1
+  Error                                    1
+
+CATEGORY BREAKDOWN (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  System Integrity                         1
+  Logon                                    1
+  File System                              1
+  System                                   1
+
+GEOGRAPHIC DISTRIBUTION
+─────────────────────────────────────────────────────────────────────
+  (none)
+
+ISP / NETWORK ORIGIN
+─────────────────────────────────────────────────────────────────────
+  (none)
+
+IMPACT ASSESSMENT  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+This Windows security incident has a 5.06% anomaly rate (4 events), a severity of 'HIGH': 3, and a reputational risk of 'CRITICAL': 1. The top affected machines are ['SERVER-DC01', 'SERVER-FILE01'] and ['SERVER-DC01'].
+
+ROOT CAUSE ANALYSIS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+['Security', 'Microsoft-Windows-Security-Auditing', 'Disk']
+
+REMEDIATION RECOMMENDATIONS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source
+
+TOP CRITICAL ANOMALY RECORDS
+─────────────────────────────────────────────────────────────────────
+  [1] MachineName: SERVER-FILE01 | Source: Disk | EntryType: Error | severity: CRITICAL | reconstruction_error: 1.368410587310791
+  [2] MachineName: SERVER-FILE01 | Source: Security | EntryType: SuccessAudit | severity: HIGH | reconstruction_error: 1.1271954774856567
+  [3] MachineName: SERVER-DC01 | Source: Microsoft-Windows-Security-Auditing | EntryType: FailureAudit | severity: HIGH | reconstruction_error: 1.077870488166809
+  [4] MachineName: SERVER-DC01 | Source: Security | EntryType: SuccessAudit | severity: HIGH | reconstruction_error: 1.0483109951019287
+
+DETECTION METHODOLOGY
+─────────────────────────────────────────────────────────────────────
+  Model            : Symmetric Autoencoder (PyTorch)
+  Architecture     : Input -> 128 -> 64 -> 32 -> 16 <- 32 <- 64 <- 128 <- Input
+  Training Mode    : Unsupervised (learns normal behaviour)
+  Anomaly Metric   : Per-sample MSE reconstruction error
+  Threshold Policy : 95.0th percentile of training errors
+  Feature Groups   : Temporal (13) + Categorical LE (9) + TF-IDF (50) + Msg Stats (7)
+  LLM Narrative    : google/flan-t5-base (HuggingFace Transformers)
+
+================================================================================
+                          END OF INCIDENT REPORT
+================================================================================

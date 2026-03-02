@@ -1,0 +1,95 @@
+================================================================================
+                    WINDOWS SECURITY INCIDENT REPORT
+================================================================================
+Incident ID    : INC-20260302-153443
+Generated At   : 2026-03-02 15:34:43
+Classification : CRITICAL
+Detection      : Autoencoder Anomaly Detection (PyTorch)
+Status         : OPEN — Pending Investigation
+================================================================================
+
+EXECUTIVE SUMMARY
+─────────────────────────────────────────────────────────────────────
+Windows security anomaly detection report: 4 anomalies detected (5.06% rate), highest severity: HIGH, from 0 countries
+
+QUANTITATIVE OVERVIEW
+─────────────────────────────────────────────────────────────────────
+  Total Events Analyzed       : 79
+  Anomalies Detected          : 4
+  Anomaly Rate                : 5.06%
+  Detection Threshold (MSE)   : 1.120864
+  Max Reconstruction Error    : 1.409998  [MODERATE deviation]
+  Min Reconstruction Error    : 0.218086
+  Mean Error (All)            : 0.613806
+  Std Error (All)             : 0.266901
+  Mean Error (Anomalies)      : 1.274019
+  Date Range                  : 2024-01-15 08:23:11  ->  2024-01-16 04:00:00
+
+SEVERITY BREAKDOWN
+─────────────────────────────────────────────────────────────────────
+  HIGH                                     2
+  CRITICAL                                 2
+
+TOP AFFECTED MACHINES
+─────────────────────────────────────────────────────────────────────
+  SERVER-FILE01                            2
+  DESKTOP-WIN05                            1
+  SERVER-DC01                              1
+
+TOP ANOMALOUS EVENT SOURCES
+─────────────────────────────────────────────────────────────────────
+  Security                                 3
+  Disk                                     1
+
+ENTRY TYPE DISTRIBUTION (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  SuccessAudit                             2
+  FailureAudit                             1
+  Error                                    1
+
+CATEGORY BREAKDOWN (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  Logon                                    2
+  File System                              1
+  System                                   1
+
+GEOGRAPHIC DISTRIBUTION
+─────────────────────────────────────────────────────────────────────
+  (none)
+
+ISP / NETWORK ORIGIN
+─────────────────────────────────────────────────────────────────────
+  (none)
+
+IMPACT ASSESSMENT  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+5.06% anomaly rate (4 events out of 79), severity breakdown: 'HIGH': 2, 'CRITICAL': 2, top affected machines: ['SERVER-FILE01', 'DESKTOP-WIN05', 'SERVER-DC01']
+
+ROOT CAUSE ANALYSIS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+High-error log messages: Critical disk failure imminent on DeviceHarddisk0DR0. Reallocated sector count threshold exceeded | Large file transfer detected. Object Name: C:Confidential Size: 2.3GB Account Name: SYSTEM Destination: 203.0.113.99 Source IP: 203.0.113.99
+
+REMEDIATION RECOMMENDATIONS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly
+
+TOP CRITICAL ANOMALY RECORDS
+─────────────────────────────────────────────────────────────────────
+  [1] MachineName: SERVER-FILE01 | Source: Disk | EntryType: Error | severity: CRITICAL | reconstruction_error: 1.4099984169006348
+  [2] MachineName: SERVER-FILE01 | Source: Security | EntryType: SuccessAudit | severity: CRITICAL | reconstruction_error: 1.306607723236084
+  [3] MachineName: SERVER-DC01 | Source: Security | EntryType: SuccessAudit | severity: HIGH | reconstruction_error: 1.217087745666504
+  [4] MachineName: DESKTOP-WIN05 | Source: Security | EntryType: FailureAudit | severity: HIGH | reconstruction_error: 1.162381649017334
+
+DETECTION METHODOLOGY
+─────────────────────────────────────────────────────────────────────
+  Model            : Symmetric Autoencoder (PyTorch)
+  Architecture     : Input -> 128 -> 64 -> 32 -> 16 <- 32 <- 64 <- 128 <- Input
+  Training Mode    : Unsupervised (learns normal behaviour)
+  Anomaly Metric   : Per-sample MSE reconstruction error
+  Threshold Policy : 95.0th percentile of training errors
+  Feature Groups   : Temporal (11) + Categorical LE (4) + TF-IDF (50) + Msg Stats (7)
+  LLM Narrative    : google/flan-t5-base (HuggingFace Transformers)
+
+================================================================================
+                          END OF INCIDENT REPORT
+================================================================================

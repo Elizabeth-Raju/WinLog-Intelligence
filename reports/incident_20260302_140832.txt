@@ -1,0 +1,107 @@
+================================================================================
+                    WINDOWS SECURITY INCIDENT REPORT
+================================================================================
+Incident ID    : INC-20260302-140932
+Generated At   : 2026-03-02 14:09:32
+Classification : CRITICAL
+Detection      : Autoencoder Anomaly Detection (PyTorch)
+Status         : OPEN — Pending Investigation
+================================================================================
+
+EXECUTIVE SUMMARY
+─────────────────────────────────────────────────────────────────────
+A CISO from the Office of Management and Budget (OMB) in Washington, D.C. reported a security incident in which 7908 anomalies (5.0% rate), severity: 'LOW': 7788, and after-hours anomalies: 0.
+
+QUANTITATIVE OVERVIEW
+─────────────────────────────────────────────────────────────────────
+  Total Events Analyzed       : 158,184
+  Anomalies Detected          : 7,908
+  Anomaly Rate                : 5.0%
+  Detection Threshold (MSE)   : 0.216576
+  Max Reconstruction Error    : 7.705633  [EXTREME deviation]
+  Mean Error (All)            : 0.081293
+  Mean Error (Anomalies)      : 0.501464
+  After-Hours Anomalies       : 0
+  Time Range                  : 2014-11-16 17:43:00  ->  2021-05-03 18:29:00
+
+SEVERITY BREAKDOWN
+─────────────────────────────────────────────────────────────────────
+  LOW                                   7788
+  CRITICAL                               120
+
+TOP AFFECTED MACHINES
+─────────────────────────────────────────────────────────────────────
+  TMP249-G3-M                           2604
+  LAPTOP-1MKMTVPM                       2200
+  Admin-PC                              1245
+  DESKTOP-SEJ28PM                       1195
+  DESKTOP-R5JMQHG                        313
+
+TOP ANOMALOUS EVENT SOURCES
+─────────────────────────────────────────────────────────────────────
+  ESENT                                 2411
+  Windows Error Reporting                995
+  MsiInstaller                           860
+  System Restore                         533
+  Software Protection Platform Service    383
+
+ENTRY TYPE DISTRIBUTION (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  Information                           5404
+  Error                                 1326
+  Warning                                680
+  0                                      498
+
+CATEGORY BREAKDOWN (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  0                                     4739
+  General                               1694
+  Logging/Recovery                       512
+  Application Crashing Events            267
+  GENERAL                                170
+
+GEOGRAPHIC DISTRIBUTION
+─────────────────────────────────────────────────────────────────────
+  India                                 7908
+
+ISP / NETWORK ORIGIN
+─────────────────────────────────────────────────────────────────────
+  Bharti Airtel                         2599
+  Bharti Airtel Limited                 1184
+  GTPL A. J. Enterprise                 1156
+  Vaji Communications Pvt. Ltd.         1038
+  Idea Cellular Ltd                      820
+
+IMPACT ASSESSMENT  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+The TMP249-G3-M, Admin-PC, and TMP249-G3-M are affected by a Windows security incident. The TMP249-G3-M, Admin-PC, and TMP249-G3-M are affected by a Windows security incident. The TMP249-G3-M, Admin-PC, and TMP249-G3-M are affected by a Windows security incident. The TMP249-G3-M, Admin-PC, and TMP249-G3-M are affected by a Windows security incident. The TMP249-G3-M, Admin-PC, and TMP249-G3-M are affected by a Windows security incident. The TMP249-G3-M, Admin-PC, and TMP249-G3-M are affected by a Windows security incident. The TMP249-G3-M, Admin-PC, and TMP249-G3-M are affected by a Windows security incident. The TMP249-G3-M,
+
+ROOT CAUSE ANALYSIS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+['ESENT', 'Windows Error Reporting', 'MsiInstaller']
+
+REMEDIATION RECOMMENDATIONS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source of the anomaly. Identify the source
+
+TOP CRITICAL ANOMALY RECORDS
+─────────────────────────────────────────────────────────────────────
+  [1] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 7.705633163452148
+  [2] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 7.705633163452148
+  [3] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 7.705633163452148
+  [4] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 7.705633163452148
+  [5] MachineName: LAPTOP-1MKMTVPM | Source: Windows Error Reporting | EntryType: Information | severity: CRITICAL | reconstruction_error: 7.705633163452148
+
+DETECTION METHODOLOGY
+─────────────────────────────────────────────────────────────────────
+  Model            : Symmetric Autoencoder (PyTorch)
+  Architecture     : Input -> 128 -> 64 -> 32 -> 16 <- 32 <- 64 <- 128 <- Input
+  Training Mode    : Unsupervised (learns normal behaviour)
+  Anomaly Metric   : Per-sample MSE reconstruction error
+  Threshold Policy : 95.0th percentile of training errors
+  Feature Groups   : Temporal (13) + Categorical LE (9) + TF-IDF (50) + Msg Stats (7)
+  LLM Narrative    : google/flan-t5-base (HuggingFace Transformers)
+
+================================================================================
+                          END OF INCIDENT REPORT
+================================================================================

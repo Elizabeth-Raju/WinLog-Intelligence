@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WinLog Intelligence · Anomaly Detection</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:        #07090f;
+    --surface:   #0d1117;
+    --panel:     #111827;
+    --border:    #1e2a3a;
+    --accent:    #00d4ff;
+    --accent2:   #ff4757;
+    --accent3:   #ffa502;
+    --accent4:   #2ed573;
+    --text:      #c8d6e5;
+    --muted:     #5a6a7e;
+    --critical:  #ff4757;
+    --high:      #ff6b35;
+    --medium:    #ffa502;
+    --low:       #2ed573;
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-ui:   'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-ui);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,212,255,.012) 2px, rgba(0,212,255,.012) 4px);
+  }
+
+  /* Header */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .logo-icon {
+    width: 38px; height: 38px; position: relative;
+  }
+  .logo-icon svg { width: 100%; height: 100%; }
+  .logo-text { line-height: 1; }
+  .logo-title {
+    font-size: 1rem; font-weight: 800; letter-spacing: .08em;
+    text-transform: uppercase; color: #fff;
+  }
+  .logo-sub {
+    font-size: .65rem; font-family: var(--font-mono);
+    color: var(--accent); letter-spacing: .12em; margin-top: 2px;
+  }
+  .header-status {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: .7rem; color: var(--muted);
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent4); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+  /* Main layout */
+  main { padding: 28px 32px; max-width: 1400px; margin: 0 auto; }
+
+  /* Upload Zone */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 56px 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    background: var(--surface);
+    position: relative; overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .upload-zone::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--accent);
+    background: #0a1420;
+  }
+  .upload-zone input { display: none; }
+  .upload-icon { font-size: 2.4rem; margin-bottom: 14px; opacity: .7; }
+  .upload-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .upload-hint { font-size: .8rem; color: var(--muted); font-family: var(--font-mono); }
+  .upload-btn {
+    display: inline-block; margin-top: 20px;
+    padding: 10px 28px; border-radius: 6px;
+    background: var(--accent); color: #000;
+    font-weight: 700; font-size: .85rem; letter-spacing: .06em;
+    cursor: pointer; transition: opacity .15s;
+  }
+  .upload-btn:hover { opacity: .85; }
+
+  /* Progress panel */
+  .progress-panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+    margin-bottom: 28px; display: none;
+  }
+  .progress-panel.visible { display: block; }
+  .prog-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .prog-spinner {
+    width: 20px; height: 20px; border: 2px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .prog-title { font-weight: 700; color: #fff; font-size: .95rem; }
+  .prog-steps { display: flex; gap: 10px; flex-wrap: wrap; }
+  .step {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px; border-radius: 6px;
+    border: 1px solid var(--border);
+    font-family: var(--font-mono); font-size: .72rem;
+    color: var(--muted); transition: all .3s;
+  }
+  .step.active { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,.07); }
+  .step.done   { border-color: var(--accent4); color: var(--accent4); background: rgba(46,213,115,.07); }
+  .step-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* Results grid */
+  .results { display: none; }
+  .results.visible { display: block; }
+
+  /* KPI row */
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 22px;
+    position: relative; overflow: hidden;
+    transition: border-color .2s;
+  }
+  .kpi:hover { border-color: var(--accent); }
+  .kpi::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--accent);
+  }
+  .kpi.red::after  { background: var(--critical); }
+  .kpi.amber::after{ background: var(--medium); }
+  .kpi.green::after{ background: var(--low); }
+  .kpi-label { font-family: var(--font-mono); font-size: .65rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+  .kpi-value { font-size: 2rem; font-weight: 800; color: #fff; line-height: 1; }
+  .kpi-sub   { font-size: .72rem; color: var(--muted); margin-top: 6px; font-family: var(--font-mono); }
+
+  /* Grid panels */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  @media(max-width:900px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+
+  .panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px;
+  }
+  .panel-title {
+    font-family: var(--font-mono); font-size: .7rem;
+    color: var(--accent); letter-spacing: .12em;
+    text-transform: uppercase; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title::before {
+    content: ''; display: inline-block;
+    width: 8px; height: 8px; background: var(--accent); border-radius: 2px;
+  }
+
+  /* Severity bars */
+  .sev-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .sev-label { font-family: var(--font-mono); font-size: .72rem; width: 70px; }
+  .sev-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .sev-bar { height: 100%; border-radius: 4px; transition: width .8s ease; }
+  .sev-count { font-family: var(--font-mono); font-size: .72rem; width: 50px; text-align: right; color: var(--muted); }
+  .sev-CRITICAL .sev-label { color: var(--critical); }
+  .sev-CRITICAL .sev-bar   { background: var(--critical); }
+  .sev-HIGH     .sev-label { color: var(--high); }
+  .sev-HIGH     .sev-bar   { background: var(--high); }
+  .sev-MEDIUM   .sev-label { color: var(--medium); }
+  .sev-MEDIUM   .sev-bar   { background: var(--medium); }
+  .sev-LOW      .sev-label { color: var(--low); }
+  .sev-LOW      .sev-bar   { background: var(--low); }
+
+  /* Mini bar charts */
+  .bar-list { display: flex; flex-direction: column; gap: 10px; }
+  .bar-item { display: flex; align-items: center; gap: 10px; }
+  .bar-item-label { font-family: var(--font-mono); font-size: .68rem; flex: 0 0 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+  .bar-item-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .bar-item-fill  { height: 100%; background: var(--accent); border-radius: 3px; transition: width .8s ease; }
+  .bar-item-val   { font-family: var(--font-mono); font-size: .68rem; color: var(--muted); width: 36px; text-align: right; }
+
+  /* Hourly chart */
+  .hourly-chart { display: flex; align-items: flex-end; gap: 3px; height: 80px; padding-top: 4px; }
+  .hour-bar { flex: 1; border-radius: 2px 2px 0 0; background: var(--accent); opacity: .6; transition: opacity .15s; min-width: 0; position: relative; }
+  .hour-bar:hover { opacity: 1; }
+  .hour-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+  .hour-labels span { font-family: var(--font-mono); font-size: .6rem; color: var(--muted); }
+
+  /* Loss curve */
+  .loss-chart { height: 80px; position: relative; }
+  .loss-svg { width: 100%; height: 100%; }
+
+  /* Anomaly table */
+  .anomaly-table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: .7rem; }
+  .anomaly-table th {
+    text-align: left; padding: 8px 12px;
+    color: var(--muted); font-weight: 400; letter-spacing: .08em;
+    border-bottom: 1px solid var(--border); text-transform: uppercase;
+  }
+  .anomaly-table td { padding: 9px 12px; border-bottom: 1px solid rgba(30,42,58,.6); }
+  .anomaly-table tr:last-child td { border-bottom: none; }
+  .anomaly-table tr:hover td { background: rgba(0,212,255,.03); }
+  .badge {
+    padding: 2px 8px; border-radius: 3px;
+    font-size: .62rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .badge-CRITICAL { background: rgba(255,71,87,.15); color: var(--critical); border: 1px solid rgba(255,71,87,.3); }
+  .badge-HIGH     { background: rgba(255,107,53,.15); color: var(--high);     border: 1px solid rgba(255,107,53,.3); }
+  .badge-MEDIUM   { background: rgba(255,165,2,.15);  color: var(--medium);   border: 1px solid rgba(255,165,2,.3); }
+  .badge-LOW      { background: rgba(46,213,115,.15); color: var(--low);      border: 1px solid rgba(46,213,115,.3); }
+
+  /* Error text */
+  .error-msg {
+    background: rgba(255,71,87,.1); border: 1px solid rgba(255,71,87,.3);
+    color: var(--critical); padding: 16px 20px; border-radius: 8px;
+    font-family: var(--font-mono); font-size: .78rem;
+    white-space: pre-wrap; margin-bottom: 14px; display: none;
+  }
+  .error-msg.visible { display: block; }
+
+  /* Action bar */
+  .action-bar { display: flex; gap: 12px; margin-bottom: 24px; }
+  .btn {
+    padding: 10px 22px; border-radius: 6px; border: none; cursor: pointer;
+    font-family: var(--font-ui); font-weight: 700; font-size: .82rem;
+    letter-spacing: .04em; transition: opacity .15s;
+  }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn:hover { opacity: .8; }
+  .btn:disabled { opacity: .35; cursor: not-allowed; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="36" height="36" rx="7" stroke="#1e2a3a" stroke-width="1.5"/>
+        <path d="M8 28 L15 10 L19 22 L23 14 L30 28" stroke="#00d4ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="30" cy="10" r="3" fill="#ff4757"/>
+        <circle cx="8"  cy="10" r="3" fill="#2ed573"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <div class="logo-title">WinLog Intelligence</div>
+      <div class="logo-sub">Anomaly Detection &amp; Incident Reporting</div>
+    </div>
+  </div>
+  <div class="header-status">
+    <div class="dot"></div>
+    <span id="header-status-text">SYSTEM READY</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- Upload Zone -->
+  <div class="upload-zone" id="dropZone">
+    <input type="file" id="fileInput" accept=".csv" />
+    <div class="upload-icon">📁</div>
+    <div class="upload-title">Drop your Windows Event Log CSV here</div>
+    <div class="upload-hint">eventlog.csv · MachineName, TimeGenerated, Source, Category, EntryType, Message</div>
+    <label for="fileInput" class="upload-btn">SELECT FILE</label>
+  </div>
+
+  <!-- Error -->
+  <div class="error-msg" id="errorMsg"></div>
+
+  <!-- Progress -->
+  <div class="progress-panel" id="progressPanel">
+    <div class="prog-header">
+      <div class="prog-spinner" id="progSpinner"></div>
+      <div class="prog-title" id="progTitle">Initialising pipeline…</div>
+    </div>
+    <div class="prog-steps">
+      <div class="step" id="step-feature_engineering"><div class="step-dot"></div>Feature Engineering</div>
+      <div class="step" id="step-training_autoencoder"><div class="step-dot"></div>Autoencoder Training</div>
+      <div class="step" id="step-detecting_anomalies"><div class="step-dot"></div>Anomaly Detection</div>
+      <div class="step" id="step-generating_report"><div class="step-dot"></div>Generating Report</div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <div class="action-bar">
+      <button class="btn btn-primary" id="downloadBtn">⬇ DOWNLOAD INCIDENT REPORT</button>
+      <button class="btn btn-outline" id="resetBtn">↺ ANALYSE NEW FILE</button>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Total Events</div>
+        <div class="kpi-value" id="kpi-total">—</div>
+        <div class="kpi-sub" id="kpi-timerange">—</div>
+      </div>
+      <div class="kpi red">
+        <div class="kpi-label">Anomalies Detected</div>
+        <div class="kpi-value" id="kpi-anomalies">—</div>
+        <div class="kpi-sub" id="kpi-rate">—% anomaly rate</div>
+      </div>
+      <div class="kpi amber">
+        <div class="kpi-label">After-Hours Anomalies</div>
+        <div class="kpi-value" id="kpi-afterhours">—</div>
+        <div class="kpi-sub">outside 07:00–19:00</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Detection Threshold</div>
+        <div class="kpi-value" id="kpi-threshold" style="font-size:1.3rem">—</div>
+        <div class="kpi-sub">95th percentile MSE</div>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="grid-2">
+      <!-- Severity -->
+      <div class="panel">
+        <div class="panel-title">Severity Breakdown</div>
+        <div id="severity-bars"></div>
+      </div>
+      <!-- Hourly -->
+      <div class="panel">
+        <div class="panel-title">Hourly Anomaly Distribution</div>
+        <div class="hourly-chart" id="hourlyChart"></div>
+        <div class="hour-labels">
+          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="grid-3">
+      <div class="panel">
+        <div class="panel-title">Top Affected Machines</div>
+        <div class="bar-list" id="machinesList"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Top Anomalous Sources</div>
+        <div class="bar-list" id="sourcesList"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Autoencoder Loss Curve</div>
+        <div class="loss-chart" id="lossChart"></div>
+        <div class="panel-title" style="margin-top:14px;">Entry Type Error Rates</div>
+        <div class="bar-list" id="entryRateList"></div>
+      </div>
+    </div>
+
+    <!-- Top Anomalies Table -->
+    <div class="panel" style="margin-bottom:14px;">
+      <div class="panel-title">Top 10 Highest-Risk Events</div>
+      <div style="overflow-x:auto;">
+        <table class="anomaly-table" id="anomalyTable">
+          <thead>
+            <tr>
+              <th>#</th><th>Severity</th><th>Score</th><th>MSE</th>
+              <th>Machine</th><th>Source</th><th>Entry Type</th><th>Category</th>
+            </tr>
+          </thead>
+          <tbody id="anomalyTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+let currentJobId = null;
+let pollInterval  = null;
+
+// ── Upload handling ──────────────────────────────────────────────────────────
+const dropZone  = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault(); dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) uploadFile(file);
+});
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) uploadFile(fileInput.files[0]);
+});
+
+async function uploadFile(file) {
+  showError('');
+  setStatus('UPLOADING…');
+
+  const fd = new FormData();
+  fd.append('file', file);
+
+  try {
+    const res  = await fetch('/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.detail || 'Upload failed');
+
+    currentJobId = data.job_id;
+    showProgress(true);
+    hideResults();
+    dropZone.style.display = 'none';
+
+    startPolling();
+  } catch (err) {
+    showError(err.message);
+    setStatus('ERROR');
+  }
+}
+
+// ── Polling ──────────────────────────────────────────────────────────────────
+const STEPS_ORDER = ['queued','feature_engineering','training_autoencoder','detecting_anomalies','generating_report','done'];
+
+function startPolling() {
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(async () => {
+    try {
+      const res  = await fetch(`/job/${currentJobId}`);
+      const data = await res.json();
+      updateProgress(data.status);
+
+      if (data.status === 'done') {
+        clearInterval(pollInterval);
+        try {
+          renderResults(data.result);
+        } catch(err) {
+          showError('Results rendering failed: ' + err.message + '\nCheck console for details.');
+          console.error('renderResults error:', err, '\nResult data:', data.result);
+        }
+        showProgress(false);
+        setStatus('ANALYSIS COMPLETE');
+      } else if (data.status === 'error') {
+        clearInterval(pollInterval);
+        showProgress(false);
+        showError(data.error || 'Pipeline error');
+        setStatus('ERROR');
+      }
+    } catch(e) { /* network glitch, retry */ }
+  }, 1500);
+}
+
+function updateProgress(status) {
+  const labels = {
+    queued:               'Queued…',
+    feature_engineering:  'Engineering features…',
+    training_autoencoder: 'Training autoencoder (30 epochs)…',
+    detecting_anomalies:  'Detecting anomalies…',
+    generating_report:    'Generating incident report…',
+    done:                 'Done ✓',
+  };
+  document.getElementById('progTitle').textContent = labels[status] || status;
+  setStatus(status.toUpperCase().replace(/_/g,' '));
+
+  const stepMap = {
+    feature_engineering:  'feature_engineering',
+    training_autoencoder: 'training_autoencoder',
+    detecting_anomalies:  'detecting_anomalies',
+    generating_report:    'generating_report',
+    done:                 'generating_report',
+  };
+
+  const doneUpTo = STEPS_ORDER.indexOf(status);
+  const stepIds  = ['feature_engineering','training_autoencoder','detecting_anomalies','generating_report'];
+  stepIds.forEach((id, i) => {
+    const el = document.getElementById(`step-${id}`);
+    const pos = STEPS_ORDER.indexOf(id);
+    if (status === 'done' || pos < doneUpTo) {
+      el.classList.remove('active'); el.classList.add('done');
+    } else if (pos === doneUpTo) {
+      el.classList.add('active'); el.classList.remove('done');
+    }
+  });
+}
+
+// ── Render results ───────────────────────────────────────────────────────────
+function renderResults(r) {
+  // Normalise field names — supports both old (pre-refactor) and new (notebook-aligned) names
+  const totalEvents     = r.total_events     ?? r.total_records      ?? 0;
+  const totalAnomalies  = r.total_anomalies  ?? 0;
+  const anomalyRate     = r.anomaly_rate     ?? r.anomaly_rate_pct   ?? 0;
+  const afterHours      = r.after_hours_anomalies ?? 0;
+  const threshold       = r.threshold        ?? 0;
+  const severityCounts  = r.severity_counts  ?? r.severity_breakdown ?? {};
+  const topMachines     = r.top_machines     ?? r.top_anomaly_machines  ?? {};
+  const topSources      = r.top_sources      ?? r.top_anomaly_sources   ?? {};
+  const entryErrorRate  = r.entry_error_rate ?? r.top_entry_types       ?? {};
+  const timeRange       = r.time_range;
+
+  // KPIs
+  document.getElementById('kpi-total').textContent      = totalEvents.toLocaleString();
+  document.getElementById('kpi-anomalies').textContent  = totalAnomalies.toLocaleString();
+  document.getElementById('kpi-rate').textContent       = `${anomalyRate}% anomaly rate`;
+  document.getElementById('kpi-afterhours').textContent = afterHours.toLocaleString();
+  document.getElementById('kpi-threshold').textContent  = threshold.toFixed(5);
+  document.getElementById('kpi-timerange').textContent  = timeRange
+    ? `${(timeRange.start || timeRange.date_range_start || '').slice(0,10)} → ${(timeRange.end || timeRange.date_range_end || '').slice(0,10)}`
+    : (r.date_range_start ? `${r.date_range_start.slice(0,10)} → ${r.date_range_end.slice(0,10)}` : '');
+
+  // Severity bars
+  const sevEl = document.getElementById('severity-bars');
+  const sevs  = ['CRITICAL','HIGH','MEDIUM','LOW'];
+  const sevMax = Math.max(...sevs.map(s => severityCounts[s] || 0), 1);
+  sevEl.innerHTML = sevs.map(s => {
+    const cnt = severityCounts[s] || 0;
+    const pct = (cnt / sevMax * 100).toFixed(1);
+    return `<div class="sev-row sev-${s}">
+      <div class="sev-label">${s}</div>
+      <div class="sev-bar-wrap"><div class="sev-bar" style="width:${pct}%"></div></div>
+      <div class="sev-count">${cnt.toLocaleString()}</div>
+    </div>`;
+  }).join('');
+
+  // Hourly
+  const hourlyEl = document.getElementById('hourlyChart');
+  const hourly   = r.hourly_anomalies || {};
+  const hourMax  = Math.max(...Object.values(hourly), 1);
+  hourlyEl.innerHTML = '';
+  for (let h = 0; h < 24; h++) {
+    const v = hourly[h] || 0;
+    const pct = (v / hourMax * 100);
+    const bar = document.createElement('div');
+    bar.className = 'hour-bar';
+    bar.style.height = pct + '%';
+    bar.title = `${String(h).padStart(2,'0')}:00 — ${v} anomalies`;
+    hourlyEl.appendChild(bar);
+  }
+
+  // Bar lists helper
+  function renderBarList(id, data) {
+    const el = document.getElementById(id);
+    if (!data || typeof data !== 'object') { el.innerHTML = '<div style="color:var(--muted);font-size:.75rem;font-family:var(--font-mono);">No data</div>'; return; }
+    const entries = Object.entries(data);
+    const maxV    = Math.max(...entries.map(e => e[1]), 1);
+    el.innerHTML  = entries.map(([k, v]) =>
+      `<div class="bar-item">
+        <div class="bar-item-label" title="${k}">${k}</div>
+        <div class="bar-item-track"><div class="bar-item-fill" style="width:${(v/maxV*100).toFixed(1)}%"></div></div>
+        <div class="bar-item-val">${v}</div>
+      </div>`
+    ).join('');
+  }
+  renderBarList('machinesList', topMachines);
+  renderBarList('sourcesList',  topSources);
+  renderBarList('entryRateList', entryErrorRate);
+
+  // Loss curve SVG
+  const losses  = r.loss_curve || [];
+  if (losses.length > 1) {
+    const lEl = document.getElementById('lossChart');
+    const W = lEl.clientWidth || 260, H = 80;
+    const minL = Math.min(...losses), maxL = Math.max(...losses);
+    const xS   = (W - 10) / (losses.length - 1);
+    const yS   = (H - 10) / (maxL - minL + 1e-9);
+    const pts  = losses.map((v, i) => `${5 + i*xS},${H - 5 - (v - minL)*yS}`).join(' ');
+    lEl.innerHTML = `<svg class="loss-svg" viewBox="0 0 ${W} ${H}">
+      <polyline points="${pts}" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linejoin="round"/>
+    </svg>`;
+  }
+
+  // Anomaly table
+  const tbody = document.getElementById('anomalyTableBody');
+  tbody.innerHTML = (r.top_anomalies || []).map((ev, i) => {
+    const sev = ev.severity || 'LOW';
+    return `<tr>
+      <td>${i+1}</td>
+      <td><span class="badge badge-${sev}">${sev}</span></td>
+      <td>${(ev.anomaly_score||0).toFixed(3)}</td>
+      <td>${(ev.reconstruction_error||0).toFixed(5)}</td>
+      <td>${ev.MachineName || '—'}</td>
+      <td>${ev.Source || '—'}</td>
+      <td>${ev.EntryType || '—'}</td>
+      <td>${ev.Category || '—'}</td>
+    </tr>`;
+  }).join('');
+
+  hideResults(false);
+  document.getElementById('downloadBtn').onclick = () => {
+    window.open(`/report/${currentJobId}`, '_blank');
+  };
+  document.getElementById('resetBtn').onclick = resetApp;
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────────
+function showProgress(show) {
+  document.getElementById('progressPanel').classList.toggle('visible', show);
+  document.getElementById('progSpinner').style.display = show ? 'block' : 'none';
+}
+function hideResults(hide = true) {
+  document.getElementById('results').classList.toggle('visible', !hide);
+}
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.toggle('visible', !!msg);
+}
+function setStatus(s) {
+  document.getElementById('header-status-text').textContent = s;
+}
+function resetApp() {
+  currentJobId = null;
+  if (pollInterval) clearInterval(pollInterval);
+  dropZone.style.display = '';
+  showProgress(false);
+  hideResults(true);
+  showError('');
+  fileInput.value = '';
+  setStatus('SYSTEM READY');
+}
+</script>
+</body>
+</html>

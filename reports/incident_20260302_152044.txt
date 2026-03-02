@@ -1,0 +1,110 @@
+================================================================================
+                    WINDOWS SECURITY INCIDENT REPORT
+================================================================================
+Incident ID    : INC-20260302-152413
+Generated At   : 2026-03-02 15:24:13
+Classification : CRITICAL
+Detection      : Autoencoder Anomaly Detection (PyTorch)
+Status         : OPEN — Pending Investigation
+================================================================================
+
+EXECUTIVE SUMMARY
+─────────────────────────────────────────────────────────────────────
+Windows security anomaly detection report: 7,910 anomalies detected (5.0% rate), highest severity: LOW, from 1 countries
+
+QUANTITATIVE OVERVIEW
+─────────────────────────────────────────────────────────────────────
+  Total Events Analyzed       : 158,184
+  Anomalies Detected          : 7,910
+  Anomaly Rate                : 5.0%
+  Detection Threshold (MSE)   : 0.217595
+  Max Reconstruction Error    : 2.443850  [EXTREME deviation]
+  Min Reconstruction Error    : 0.004551
+  Mean Error (All)            : 0.078989
+  Std Error (All)             : 0.116816
+  Mean Error (Anomalies)      : 0.439028
+  Date Range                  : 2014-11-16 17:43:00  ->  2021-05-03 18:29:00
+
+SEVERITY BREAKDOWN
+─────────────────────────────────────────────────────────────────────
+  LOW                                   7649
+  MEDIUM                                 126
+  HIGH                                   123
+  CRITICAL                                12
+
+TOP AFFECTED MACHINES
+─────────────────────────────────────────────────────────────────────
+  TMP249-G3-M                           2388
+  LAPTOP-1MKMTVPM                       2322
+  DESKTOP-SEJ28PM                       1340
+  Admin-PC                              1187
+  DESKTOP-R5JMQHG                        309
+
+TOP ANOMALOUS EVENT SOURCES
+─────────────────────────────────────────────────────────────────────
+  ESENT                                 2265
+  Windows Error Reporting               1229
+  MsiInstaller                          1014
+  System Restore                         514
+  Software Protection Platform Service    392
+
+ENTRY TYPE DISTRIBUTION (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  Information                           5900
+  Error                                 1141
+  Warning                                754
+  0                                      115
+
+CATEGORY BREAKDOWN (Anomalies)
+─────────────────────────────────────────────────────────────────────
+  0                                     4914
+  General                               1645
+  Logging/Recovery                       432
+  Application Crashing Events            267
+  GENERAL                                170
+
+GEOGRAPHIC DISTRIBUTION
+─────────────────────────────────────────────────────────────────────
+  India                                 7910
+
+ISP / NETWORK ORIGIN
+─────────────────────────────────────────────────────────────────────
+  Bharti Airtel                         2689
+  GTPL A. J. Enterprise                 1199
+  Bharti Airtel Limited                 1065
+  Vaji Communications Pvt. Ltd.         1003
+  Idea Cellular Ltd                      785
+
+IMPACT ASSESSMENT  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+The TMP249-G3-M, a Windows security incident in India, has a magnitude of 5.0% anomaly rate (7910 events out of 158184), top affected machines: ['TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M', 'TMP249-G3-M',
+
+ROOT CAUSE ANALYSIS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+['Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', 'Windows Error Reporting', '
+
+REMEDIATION RECOMMENDATIONS  [AI-Generated — Flan-T5]
+─────────────────────────────────────────────────────────────────────
+A security incident in India involved an anomaly rate of 5.0%, top anomalous sources: ['ESENT', 'Windows Error Reporting', 'MsiInstaller'], severity distribution: 'LOW': 7649, 'HIGH': 123, 'CRITICAL': 12, countries involved: ['India']
+
+TOP CRITICAL ANOMALY RECORDS
+─────────────────────────────────────────────────────────────────────
+  [1] MachineName: DESKTOP-U66O8IT | Source: Windows Search Service | EntryType: Warning | severity: CRITICAL | reconstruction_error: 2.44385027885437
+  [2] MachineName: DESKTOP-U66O8IT | Source: Windows Search Service | EntryType: Warning | severity: CRITICAL | reconstruction_error: 2.4384448528289795
+  [3] MachineName: DESKTOP-U66O8IT | Source: Windows Search Service | EntryType: Warning | severity: CRITICAL | reconstruction_error: 2.422717332839966
+  [4] MachineName: TMP249-G3-M | Source: ESENT | EntryType: Information | severity: CRITICAL | reconstruction_error: 2.3935279846191406
+  [5] MachineName: DESKTOP-U66O8IT | Source: Chkdsk | EntryType: Information | severity: CRITICAL | reconstruction_error: 2.357313394546509
+
+DETECTION METHODOLOGY
+─────────────────────────────────────────────────────────────────────
+  Model            : Symmetric Autoencoder (PyTorch)
+  Architecture     : Input -> 128 -> 64 -> 32 -> 16 <- 32 <- 64 <- 128 <- Input
+  Training Mode    : Unsupervised (learns normal behaviour)
+  Anomaly Metric   : Per-sample MSE reconstruction error
+  Threshold Policy : 95.0th percentile of training errors
+  Feature Groups   : Temporal (11) + Categorical LE (4) + TF-IDF (50) + Msg Stats (7)
+  LLM Narrative    : google/flan-t5-base (HuggingFace Transformers)
+
+================================================================================
+                          END OF INCIDENT REPORT
+================================================================================
