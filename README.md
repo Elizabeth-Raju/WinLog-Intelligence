@@ -2,7 +2,7 @@
 
 **Anomaly Detection & Incident Reporting for Windows Event Logs**
 
-An end-to-end ML pipeline that ingests Windows Event Log CSV exports, trains an unsupervised PyTorch Autoencoder to learn normal behaviour, flags anomalies by reconstruction error, and generates a structured incident report with AI-written narrative sections (Flan-T5).
+An end-to-end DL pipeline that ingests Windows Event Log CSV exports, trains an unsupervised PyTorch Autoencoder to learn normal behaviour, flags anomalies by reconstruction error, and generates a structured incident report with AI-written narrative sections (Flan-T5).
 
 ---
 
@@ -67,7 +67,7 @@ queued → feature_engineering → training_autoencoder → detecting_anomalies 
 
 ---
 
-## ML Pipeline Details
+## Pipeline Details
 
 ### Feature Engineering (`features.py`)
 
